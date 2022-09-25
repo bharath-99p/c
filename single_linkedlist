@@ -189,13 +189,31 @@ node* list ::concate(node* first,node* second){
     temp->next=second;
     return first;
 }
+node* list::sort(node *first)
+{
+    node *temp,*temp1;
+    int t;
+    for(temp=first;temp->next!=NULL;temp=temp->next)
+    {
+        for(temp1=temp->next;temp1!=NULL;temp1=temp1->next)
+        {
+            if(temp->data>temp1->data)
+            {
+                t=temp->data;
+                temp->data=temp1->data;
+                temp1->data=t;
+            }
+        }
+    }
+    return first;
+}
 int main(){
     node *first=NULL,*second=NULL,*temp=NULL;
     int count,ele,pos,ch,n,val;
     list l;
     cout<<"_____________________________________________________________________";
     cout<<"\n1.create \n2.display \n3.rev_display \n4.find \n5.count \n6.iab \n7.iae \n8.iav";
-    cout<<"\n9.iap\n10.dab\n11.dae\n12.dav\n13.dap\n14.concatenate\n 15.exit";
+    cout<<"\n9.iap\n10.dab\n11.dae\n12.dav\n13.dap\n14.concatenate\n 15.sort \n16.exit";
     while(1){
         cout<<"\nENTER YOUR CHOICE  :";
         cin>>ch;
@@ -275,7 +293,11 @@ int main(){
                     cout<<"\nAfter concatenation ";
                     l.display(first);
                 break;
-            case 15:cout<<"_____________________________________THANKS NAMASTHE____________________________________";
+            case 15:l.sort(first);
+                    cout<<"After sorting"
+                    l.display(first);
+                break;    
+            case 16:cout<<"_____________________________________THANKS NAMASTHE____________________________________";
                  exit(0);
             default:
             cout<<"\nEnter valid choice" ;

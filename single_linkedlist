@@ -1,0 +1,286 @@
+#include<iostream>
+using namespace std;
+struct sll{
+    int data;
+    struct sll *next;
+};
+
+typedef struct sll node;
+
+class list{
+    public:
+    node* create(int);
+    node* createn(int);
+    void display(node*);
+    void rev_display(node*);
+    int count(node*);
+    node* find(node*,int);
+    node* iab(node*,int);
+    node* iae(node*,int);
+    node* iav(node*,int,int);
+    node* iap(node*,int,int);
+    node* dab(node*);
+    node* dae(node*);
+    node* dav(node*,int);
+    node* dap(node*,int);
+    node* concate(node*,node*);
+    node* sort(node*);
+};
+node* list::create(int val){
+    node *temp=new node;
+    temp->data=val;
+    temp->next=NULL;
+    return temp;
+}
+node* list::createn(int n){
+    node *temp,*first;
+    int x;
+    cout<<"enter first node value :";
+    cin>>x;
+    temp=first=create(x);
+    for(int i=2;i<=n;i++){
+        cout<<"next node value :";
+        cin>>x;
+        temp->next=create(x);
+        temp=temp->next;
+    }
+    return first;
+}
+void list::display(node* first){
+    cout<<"\nlist :  ";
+    while(first!=NULL){
+        cout<<first->data<<"\t";
+        first=first->next;
+    }
+}
+void list::rev_display(node*first){
+    int a[count(first)],j=0;
+    cout<<"\n reverse list = ";
+     while(first->next!=NULL){
+        a[j]=first->data;
+        first=first->next;
+        j++;
+     }
+     for(int i=j;i>=0;i--){
+        cout<<a[i]<<"\t";
+     }
+}
+node* list::find(node* first,int ele){
+    while(first!=NULL){
+        if(first->data==ele){
+            return first;
+        }
+        first=first->next;
+    }
+    return NULL;
+}
+int list::count(node*first){
+    int count=0;
+    while(first!=NULL){
+        count++;
+        first=first->next;
+    }
+    return count;
+}
+node* list::iab(node*first,int ele){
+    node *temp=create(ele);
+    temp->next=first;
+    return temp;
+}
+node* list::iae(node* first,int ele){
+    node *t=first,*temp;
+    temp=create(ele);
+    if(first==NULL){
+        return temp;
+    }
+    while(t->next!=NULL){
+        t=t->next;
+    }
+    t->next=temp;
+    return first;
+}
+node* list::iav(node* first,int ele,int val){
+    node *temp=create(ele);
+    node *t=find(first,val);
+    if(t==NULL){
+        cout<<"\n insertion is not possible";
+        return first;
+    }
+    temp->next=t->next;
+    t->next=temp;
+    return first;
+}
+node* list::iap(node* first,int ele,int pos){
+     int coun=count(first);
+    if(pos==0 ||pos>coun+1){
+        cout<<"\ninsertion is not possible";
+        return first;
+    }
+    if(pos==1){
+        first=iab(first,ele);
+        return first;
+    }
+    if(pos==coun+1){
+        first=iae(first,ele);
+        return first;
+    }
+    node *temp=create(ele);
+    node *t=first;
+    for(int i=1;i<pos-1;i++){
+        t=t->next;
+    }
+    temp->next=t->next;
+    t->next=temp;
+    return first;
+}
+node* list::dab(node* first){
+    if(first==NULL){
+        cout<<"\n list is empty ";
+        return NULL;
+    }
+    return first->next;
+}
+node* list::dae(node* first){
+    node *t=first;
+    while(t->next->next!=NULL){
+        t=t->next;
+    }
+    t->next=NULL;
+    return first;
+}
+node* list::dav(node* first,int val){
+    node* t=first;
+    while(first!=NULL){
+        if(first->next->data==val){
+            break;
+        }
+        first=first->next;
+    }
+    first->next=first->next->next;
+    return t;
+    
+}
+node* list::dap(node* first,int pos){
+    int coun=count(first);
+    if(pos==0 || pos>coun){
+        cout<<"\ndeletion is not possible";
+        return first;
+    }
+    if(pos==1){
+        first=dab(first);
+        return first;
+    }
+    if(pos==coun){
+        first=dae(first);
+        return first;
+    }
+    node *temp=first;
+    for(int i=1;i<pos-2;i++){
+        temp=temp->next;
+    }
+    temp->next=temp->next->next;
+    return temp;
+}
+node* list ::concate(node* first,node* second){
+    node *temp=first;
+    while(temp->next != NULL){
+        temp=temp->next;
+    }
+    temp->next=second;
+    return first;
+}
+int main(){
+    node *first=NULL,*second=NULL,*temp=NULL;
+    int count,ele,pos,ch,n,val;
+    list l;
+    cout<<"_____________________________________________________________________";
+    cout<<"\n1.create \n2.display \n3.rev_display \n4.find \n5.count \n6.iab \n7.iae \n8.iav";
+    cout<<"\n9.iap\n10.dab\n11.dae\n12.dav\n13.dap\n14.concatenate\n 15.exit";
+    while(1){
+        cout<<"\nENTER YOUR CHOICE  :";
+        cin>>ch;
+        switch(ch){
+            case 1:cout<<"How many elements are to be created:";
+                   cin>>n;
+                   first=l.createn(n);
+                   cout<<"Creation is completed and";
+                   l.display(first);
+                 break;
+            case 2:l.display(first);
+                 break;
+            case 3:l.rev_display(first);
+                 break;
+            case 4:cout<<"Enter element to be found";
+                    cin>>ele;
+                    temp=l.find(first,ele);
+                    if(temp==NULL)
+                    cout<<"element not found";
+                    else 
+                    cout<<"element found";
+                break;
+            case 5:cout<<"\nTotal number of elements in the list are :"<<l.count(first);
+                break;    
+            case 6:cout<<"Enter elemant to be IAB";
+                    cin>>ele;
+                    first=l.iab(first,ele);
+                    cout<<"AFTER IAB";
+                    l.display(first);
+                break;
+            case 7:cout<<"Enter element to be IAE";
+                    cin>>ele;
+                    first=l.iae(first,ele);
+                    cout<<"AFTER IAE";
+                    l.display(first);
+                break;  
+            case 8:cout<<"Enter element to be IAV";
+                    cin>>ele;
+                    cout<<"Enter value where the element to be inserted";
+                    cin>>val;
+                    first=l.iav(first,ele,val);
+                    cout<<"\nAFTER IAV";
+                    l.display(first);
+                break;  
+             case 9:cout<<"Enter element to be IAP";
+                    cin>>ele;
+                    cout<<"Enter position where the element to be inserted";
+                    cin>>pos;
+                    first=l.iap(first,ele,pos);
+                    cout<<"\nAFTER IAP";
+                    l.display(first);
+                break;
+            case 10:first=l.dab(first);
+                   cout<<"\nAFTER DAB";
+                   l.display(first);
+                break; 
+            case 11:first=l.dae(first);
+                   cout<<"\nAFTER DAE";
+                   l.display(first);
+                break;   
+            case 12:cout<<"Enter value to be deleted";
+                    cin>>val;
+                    first=l.dav(first,val);
+                    cout<<"\nAFTER DAV";
+                    l.display(first);
+                break;
+            case 13:cout<<"Enter position to be deleted";
+                    cin>>pos;
+                    first=l.dav(first,pos);
+                    cout<<"\nAFTER DAP";
+                    l.display(first);
+                break; 
+            case 14:cout<<"Enter number of elements in the second list";
+                    cin>>n;
+                    second=l.createn(n);
+                    first=l.concate(first,second);
+                    cout<<"\nAfter concatenation ";
+                    l.display(first);
+                break;
+            case 15:cout<<"_____________________________________THANKS NAMASTHE____________________________________";
+                 exit(0);
+            default:
+            cout<<"\nEnter valid choice" ;
+            break;                                                            
+
+        }
+    }
+}
